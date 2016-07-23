@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>HCPS Tools/Resources</title>
+    <meta name="generator" content="SUBLIME" />
+    <script src="https://code.angularjs.org/angular-1.0.1.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style type="text/css" media="screen">
+    	.left {
+    display:      inline;
+    float:        left;
+    margin-left:  10px;
+    margin-right: 10px;
+    width:        20%;
+}
+.right{
+    display:      inline;
+    float:        left;
+    margin-left:  10px;
+    margin-right: 10px;
+    width:        60%;    
+}
+.top {
+    border-bottom: thick solid rgb(11, 112, 178);
+}
+.left {
+    margin:5px;
+    border-right: thin solid gray;
+}
+.filter {
+    margin:10px;
+    border-bottom: thin solid rgb(218, 218, 218);
+}
+
+    </style>
+</head>
+<body ng-app="myApp" >
+<div ng-controller="MyCtrl">
+    <div>
+      <div class="top">
+          Search: <input name="company" type="text" class="search-input" ng-model="query"/>
+      </div>
+        
+<section class="left" style="border-right:1px">  
+    <div class="filter">
+    Pant Size
+    <div>
+        <div ng-repeat="pants in pantsGroup">
+            <b><input type="checkbox" ng-model="usePants[pants]"/>{{pants}}</b>
+            <span>({{ (filteredPlayers | filter:query | filter:count('pants', pants)).length }})</span>
+        </div>
+    </div>
+    </div>
+    
+    <div class="filter">
+    Shirt Size
+    <div>
+        <div ng-repeat="shirts in shirtsGroup">
+            <b><input type="checkbox" ng-model="useShirts[shirts]"/>{{shirts}}</b>
+            <span>({{ (filteredPlayers | filter:query | filter:count('shirt', shirts)).length }})</span>
+        </div>
+    </div>
+    </div>
+
+    <div class="filter">
+    Shoe Size
+    <div>
+        <div ng-repeat="shoes in shoesGroup">
+            <b><input type="checkbox" ng-model="useShoes[shoes]"/>{{shoes}}</b>
+            <span>({{ (filteredPlayers | filter:query | filter:count('shoes', shoes)).length }})</span>
+        </div>
+    </div>
+    </div>
+</section>        
+<section class="right" style="border-right:1px">
+    <div>
+        <ul>
+        <li ng-repeat="player in filteredPlayers | filter:query" >
+            <p><b>Player: {{player.name}}</b></p>
+            <p>Shirt Size: {{player.shirt}} Pant Size: {{player.pants}} Shoe Size: {{player.shoes}}</p>
+        </li>
+        </ul>    
+    </div>
+    </div>
+</section>
+</div>
+
+      <script>
+        var myApp = angular.module('myApp',[]);
+
+var uniqueItems = function (data, key) {
+    var result = [];
+    
+    for (var i = 0; i < data.length; i++) {
+        var value = data[i][key];
+ 
+        if (result.indexOf(value) == -1) {
+            result.push(value);
+        }
+    
+    }
+    return result;
+};
+
+function MyCtrl($scope, filterFilter) {
+    $scope.usePants = {};
+    $scope.useShirts = {};
+    $scope.useShoes = {};
+        
+    $scope.players = [
+        {name: 'Bruce Wayne', shirt: 'XXL', pants: '42', shoes: '12'},
+        {name: 'Wayne Gretzky', shirt: 'XL', pants: '38', shoes: '10'},
+        {name: 'Michael Jordan', shirt: 'M', pants: '32', shoes: '9'},
+        {name: 'Rodman', shirt: 'XSXL', pants: '42', shoes: '11'},
+        {name: 'Jake Smitz', shirt: 'XXL', pants: '42', shoes: '12'},
+        {name: 'Will Will', shirt: 'XXLL', pants: '42', shoes: '12'},
+        {name: 'Youasdf Oukls', shirt: 'XL', pants: '38', shoes: '10'},
+        {name: 'Sam Sneed', shirt: 'XL', pants: '38', shoes: '10'},
+        {name: 'Bill Waxy', shirt: 'M', pants: '32', shoes: '9'},
+        {name: 'Javier Xavior', shirt: 'M', pants: '32', shoes: '9'},
+        {name: 'Bill Knight', shirt: 'M', pants: '32', shoes: '9'},        
+        {name: 'One More', shirt: 'M', pants: '32', shoes: '9'},        
+        {name: 'Player One', shirt: 'XXL', pants: '42', shoes: '11'},
+        {name: 'Space Cadet', shirt: 'XXL', pants: '42', shoes: '12'},
+        {name: 'Player Two', shirt: 'XXXXL', pants: '42', shoes: '12'}
+    ]; 
+    
+    // Watch the pants that are selected
+    $scope.$watch(function () {
+        return {
+            players: $scope.players,
+            usePants: $scope.usePants,
+            useShirts: $scope.useShirts,
+            useShoes: $scope.useShoes
+        }
+    }, function (value) {
+        var selected;
+        
+        $scope.count = function (prop, value) {
+            return function (el) {
+                return el[prop] == value;
+            };
+        };
+        
+        $scope.pantsGroup = uniqueItems($scope.players, 'pants');
+        var filterAfterPants = [];        
+        selected = false;
+        for (var j in $scope.players) {
+            var p = $scope.players[j];
+            for (var i in $scope.usePants) {
+                if ($scope.usePants[i]) {
+                    selected = true;
+                    if (i == p.pants) {
+                        filterAfterPants.push(p);
+                        break;
+                    }
+                }
+            }        
+        }
+        if (!selected) {
+            filterAfterPants = $scope.players;
+        }
+
+        $scope.shirtsGroup = uniqueItems($scope.players, 'shirt');
+        var filterAfterShirts = [];        
+        selected = false;
+        for (var j in filterAfterPants) {
+            var p = filterAfterPants[j];
+            for (var i in $scope.useShirts) {
+                if ($scope.useShirts[i]) {
+                    selected = true;
+                    if (i == p.shirt) {
+                        filterAfterShirts.push(p);
+                        break;
+                    }
+                }
+            }       
+        }
+        if (!selected) {
+            filterAfterShirts = filterAfterPants;
+        }
+
+        $scope.shoesGroup = uniqueItems($scope.players, 'shoes');
+        var filterAfterShoes = [];        
+        selected = false;
+        for (var j in filterAfterShirts) {
+            var p = filterAfterShirts[j];
+            for (var i in $scope.useShoes) {
+                if ($scope.useShoes[i]) {
+                    selected = true;
+                    if (i == p.shoes) {
+                        filterAfterShoes.push(p);
+                        break;
+                    }
+                }
+            }    
+        }
+        if (!selected) {
+            filterAfterShoes = filterAfterShirts;
+        }        
+
+        $scope.filteredPlayers = filterAfterShoes;        
+    }, true);
+    
+    
+    $scope.$watch('filtered', function (newValue) {
+        if (angular.isArray(newValue)) {
+            console.log(newValue.length);
+        }
+    }, true);    
+}
+
+myApp.filter('count', function() {
+    return function(collection, key) {
+      var out = "test";
+      for (var i = 0; i < collection.length; i++) {
+          //console.log(collection[i].pants);
+          //var out = myApp.filter('filter')(collection[i].pants, "42", true);
+      }
+      return out;
+    }
+});
+
+
+myApp.filter('groupBy',
+            function () {
+                return function (collection, key) {
+                    if (collection === null) return;
+                    return uniqueItems(collection, key);
+        };
+    });
+        </script>     
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.4/angular-filter.min.js'></script>
+        <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular-sanitize.js'></script>
+        <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular-animate.js'></script>
+
+
+</body>
+<!--{gsx$focus:{$t:'Research & Information Fluency'}}:true-->
+
+</html>

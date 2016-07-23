@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>HCPS Zombie Blogs</title>
+	<meta name="generator" content="BBEdit 11.1" />
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-sanitize.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <style>
+
+
+    @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
+.theline {
+  display: inline-block;
+  width: 70%;
+  padding:7px;
+  background-color: #fff;
+  border-bottom: 1px solid #efefef;
+  font-size: 1.2em;
+
+}
+
+.theline:hover {
+  background-color: #f1f7fa;
+  border-bottom: 1px solid #424242;
+}
+
+.bluebutton {
+  width:8%;
+  margin-left: 20px;
+  display: inline-block;
+  float: right;
+}
+.search {
+    display: inline-block;
+    float:left;
+    padding-right: 15px;
+    margin-right: 20px;
+}
+
+.searchrow {
+    background-color: #efefef;
+    padding: 10px;
+    font-size: 1.5em;
+}
+
+#sort {
+  width: 400px;
+  padding-left: 10px;
+}
+
+.blog {
+  margin-top: 80px;
+}
+    </style>
+
+
+</head>
+
+
+<body ng-app="myApp" ng-controller="SuperCtrl">
+<div class="container-fluid">
+    <h3>HCPS Zombie Blogs</h3>
+    	<div class="row searchrow">
+    		<div class="col-md-12">
+    			<form class="form-inline">
+                <div class="search">
+    			      <input data-ng-model='search.content.$t' name="sort" id="sort" type="text" placeholder="type your email or blog url" autofocus>   
+                </div>                            
+                
+                 <!-- <div class="sub search">
+              School:
+                <select data-ng-model="search.gsx$schoolasking.$t">
+                   <option value="">All</option>
+                   <option value="AVR">AVR / Carrie S.</option>
+                    <option value="Brookland">Brookland / Patty</option>
+                    <option value="Byrd">Byrd / Brooke</option>
+                    <option value="Central Office">Central Office / Jon G.</option>
+                    <option value="Central Office">Central Office / Kourtney</option>
+                    <option value="Deep Run">Deep Run / Greg</option>
+                    <option value="Elko">Elko / Erin P.</option>
+                    <option value="Fairfield">Fairfield / Dave</option>
+                    <option value="Freeman">Freeman / Jessica</option>
+                    <option value="Godwin">Godwin / Eric</option>
+                    <option value="Henrico">Henrico / Garry</option>
+                    <option value="Hermitage">Hermitage / Erin D.</option>
+                    <option value="Highland Springs">Highland Springs / Andrew</option>
+                    <option value="Holman">Holman / Doug</option>
+                    <option value="ITRT">ITRT Q&A</option>
+                    <option value="Moody">Moody / Emily</option>
+                    <option value="Rolfe">Rolfe / Carrie H.</option>
+                    <option value="Short Pump">Short Pump / Christina</option>
+                    <option value="Tuckahoe">Tuckahoe / Amanda</option>
+                    <option value="Tucker">Tucker / Andrea</option>
+                    <option value="Wilder">Wilder / Rachael</option>                                     
+
+                </select>-->
+                </form>
+            </div>	
+         </div>   
+    <div class="row">
+      <div class="blog">
+          <div ng-repeat="entry in entries | filter: search | orderBy:'gsx$date.$t' "  class="col-md-8 col-md-offset-2">
+            <div class="theline"> <a href="{{ entry.gsx$url.$t }}">{{ entry.gsx$url.$t }}</a> has been lonely since {{ entry.gsx$date.$t }}
+              <div class="bluebutton"><a class="btn btn-primary btn-pad" href="#">click to save this blog</a></div>
+            </div>  
+          </div>
+      </div>
+     </div>  
+    </div> 
+
+<!--<script>
+//from http://ideasandpixels.com/get-post-variables-with-javascript - allows the _GET in JS
+var $_GET = {};
+
+document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
+    function decode(s) {
+        return decodeURIComponent(s.split("+").join(" "));
+    }
+
+    $_GET[decode(arguments[1])] = decode(arguments[2]);
+});
+</script>-->
+<script>
+var app = angular.module('myApp', ['ngSanitize']);
+//$gid = $_GET['id'];
+$gURL = "blogs.json";
+app.controller('SuperCtrl', function($scope, $http) {
+    $http.get($gURL)
+    .success(function(response) {$scope.entries = response.feed.entry;});
+    $scope.Math = window.Math;
+});
+</script>
+
+</body>
+</html>
+
+
+
+	

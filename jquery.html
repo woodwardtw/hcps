@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>HCPS Tools/Resources</title>
+    <meta name="generator" content="SUBLIME" />    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+     <script type="text/javascript" src="js/load.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">            
+</head>
+
+
+<body>
+
+    <form class="controls" id="Filters">
+  <!-- We can add an unlimited number of "filter groups" using the following format: -->
+  
+  <fieldset>
+    <h4>Grade Level</h4>
+    <div class="checkbox">
+      <input type="checkbox" value=".PK-2"/>
+      <label>pk-2</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" value=".3-5"/>
+      <label>3-5</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" value=".6-8"/>
+      <label>6-8</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" value=".9-12"/>
+      <label>9-12</label>
+    </div>
+  </fieldset>
+  
+  <fieldset>
+    <h4>Subject</h4>
+    <div class="checkbox">
+      <input type="checkbox" value=".Arts"/>
+      <label>Arts</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" value=".History"/>
+      <label>History</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" value=".Language-Arts"/>
+      <label>Language Arts</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" value=".Math"/>
+      <label>Math</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" value=".PE"/>
+      <label>PE</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" value=".Science"/>
+      <label>Science</label>
+    </div>
+  </fieldset>
+  
+  <fieldset>
+    <h4>Purpose</h4>
+    <div class="checkbox">
+      <input type="checkbox" value=".sm"/>
+      <label>Small</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" value=".lrg"/>
+      <label>Large</label>
+    </div>
+  </fieldset>
+  
+  <button id="Reset">Clear Filters</button>
+</form>
+
+<div id="Container" class="container">
+  <div class="fail-message"><span>No items were found matching the selected filters</span></div>
+</div>
+</div>
+
+     <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
+
+        <script type="text/javascript" src="js/mixdetails.js"></script>
+
+</body>
+<!--{gsx$focus:{$t:'Research & Information Fluency'}}:true-->
+
+</html>
