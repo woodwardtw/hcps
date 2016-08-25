@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <style>
 
-   
     h2 {
         font-size: 3em;
         color: #337ab7;
@@ -26,7 +25,7 @@
     }
     
     .block {
-        border: 1px solid darkgray;
+        border: 1px solid darkgray; /* does the box item with color transition to gray on hover */
         margin: 5px;
         padding: 6px;
         min-height: 240px;
@@ -40,16 +39,11 @@
         border: 1px solid #337ab7;
     }
 
-    a {
-      /* First we need to help some browsers along for this to work.
-         Just because a vendor prefix is there, doesn't mean it will
-         work in a browser made by that vendor either, it's just for
-         future-proofing purposes I guess. */
+    a {     
       -o-transition:.5s;
       -ms-transition:.5s;
       -moz-transition:.5s;
       -webkit-transition:.5s;
-      /* ...and now for the proper property */
       transition:.5s;
     }
 
@@ -130,13 +124,6 @@
     display: inline-block;
 }
 
-.Varina_HS:not(:target) {
-    display: none;
-}
-.Varina_HS:target {
-    display: block;
-}
-
     </style>
 </head>
 
@@ -146,17 +133,17 @@
     <div class="container-fluid" ng-controller="SuperCtrl">
         <div class="row bar">
             <div class="col-md-offset-2 col-md-10 col-sm-12">
-                <h2>HCPS RESOURCES</h2>
+                <h2>HCPS RESOURCES</h2><!-- HEADER -->
                 <div class="row col-md-offset-1">
                     <div class="col-md-12">
                         <form class="form-inline">
-                           <!-- <input ng-model='search.content.$t' type="text" placeholder="Filter by" autofocus>-->
                             <div class="facets col-md-3 col-sm-6">
-                            Subject:
+                            <!-- THESE ARE THE DROP DOWN OPTIONS - the value option should parallel display -->
+                            Subject:<!-- SUBJECTS -->
                            <select class="menu" data-ng-model="search.gsx$subject.$t">
                                 <option value="">All</option>
                                 <option value="Arts">Arts</option>  
-                                <option value="History">History</option>                                              
+                                <option value="History">History</option>     
                                 <option value="Language Arts">Language Arts</option>
                                 <option value="Math">Math</option>
                                 <option value="PE">PE</option>
@@ -164,7 +151,7 @@
                             </select> 
                             </div>
                             <div class="facets col-md-3 col-sm-6">
-                                Grade Level:
+                                Grade Level:<!-- GRADE LEVELS -->
                                <select class="menu" data-ng-model="search.gsx$grade.$t">
                                     <option value="">All</option>
                                     <option value="PK-2">PK-2</option>
@@ -174,7 +161,7 @@
                                 </select>
                             </div>
                             <div class="facets col-md-3 col-sm-6">                            
-                             Purpose:
+                             Purpose: <!-- PURPOSE -->
                            <select class="menu" data-ng-model="search.gsx$purpose.$t">
                                 <option value="">All</option>
                                 <option value="Assessment">Assessment</option>
@@ -184,45 +171,31 @@
                                 <option value="Targeted Practice">Targeted Practice</option>
                             </select>                            
                             </div>
-                        
-                          <!--  <select class="filter-subject" data-ng-model="filterSubject.subject.$t"  
-                                ng-options="
-                                entry.gsx$subject.$t for entry in tools | 
-                                orderBy: 'gsx$subject.$t' |
-                                filter: filterSubject |
-                                unique:'gsx$subject.$t'">
-                            <option value="">All Subjects</option>
-                        </select>
-                         <input type="text" ng-model="letter">      
-                                                 -->                       
-      
                         </form>
                 </div>
             </div>
         </div>    
       </div>  
         <div class="row no-gutter">
-            <div class="col-md-offset-2 col-md-10 col-xsm-12">
-                <div ng-repeat="entry in tools | filter: search| filter: filterSubject | orderBy:'gsx$title.$t' " class="col-md-3 block" ng-if="entry.gsx$school.$t.indexOf(school) >-1 || entry.gsx$school.$t == 'all'">
+            <div class="col-md-offset-2 col-md-10 col-xsm-12"> <!-- THIS STARTS THE DISPLAY TEMPLATE 10 columns in width -->
+                <div ng-repeat="entry in tools | filter: search| filter: filterSubject | orderBy:'gsx$title.$t' " class="col-md-3 block" ng-if="entry.gsx$school.$t.indexOf(school) >-1 || entry.gsx$school.$t == 'all'"><!-- PER BOX 3 columns ordered by title -->
                     <a href="{{ entry.gsx$url.$t }}" target="_blank">
+                    <!-- -->
                         <div>
-                            <h4>{{ entry.gsx$title.$t }}</h4>
+                            <h4>{{ entry.gsx$title.$t }}</h4><!-- TITLE -->
                             <hr />                            
-                            <div class="col-md-6 ferpa ">
+                            <div class="col-md-6 ferpa "><!-- FERPA BOX -->
                                 <div class=" {{ entry.gsx$ferpaapproval.$t }}"><img src="imgs/{{ entry.gsx$ferpaapproval.$t }}.png" alt="ferpa status is {{ entry.gsx$ferpaapproval.$t }}" class="img-responsive" width="40px"></div>
                             </div>
                             
-                            <div class="col-md-6 logo">
+                            <div class="col-md-6 logo"><!-- LOGO BOX -->
                                 <img src="imgs/{{ entry.gsx$logo.$t }}" alt="this is a logo for {{ entry.gsx$title.$t }}" class="img-responsive" width="80%">
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12"><!-- DETAILS COLLAPSE BOX -->
                                 <a href="#" ng-model="collapsed" ng-click="collapsed=!collapsed">Click for the description <span class="glyphicon glyphicon-menu-down"></span></a>
                                 <div ng-show="collapsed">{{ entry.gsx$overview.$t }}</div>
                                 <div class="focus">{{ entry.gsx$purpose.$t }} <br/>
-                                {{ entry.gsx$skills.$t }} </div>
-                               <!--  <a href="#" ng-model="examples" ng-click="examples=!examples">Expand examples <span class="glyphicon glyphicon-menu-down"></span></a>
-                               <div ng-show="examples"><iframe src="https://drive.google.com/embeddedfolderview?id=0B_9l84KvUJBWMDBSbUluUzdpbGc#list" style="width:100%; height:300; border:0;"></iframe>
-                                </div>  -->
+                                {{ entry.gsx$skills.$t }} </div>                              
                             </div>
                         </div>
                     </a>
@@ -230,7 +203,7 @@
             </div>
         </div>
 
-
+<!-- THESE ARE SCRIPTS ~~~~ MESS WITH THEM IF YOU KNOW WHAT YOU'RE DOING -->
          <script>
         var app = angular.module('myApp', ['ngSanitize', 'angular.filter']);
         //
@@ -240,7 +213,7 @@
                     $scope.tools = response.feed.entry;
                 });
             $scope.appType = {};
-             $scope.school = getQueryVariable("school");
+            $scope.school = getQueryVariable("school");
 
         });
 
@@ -261,8 +234,8 @@
         
         </script>
         <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.4/angular-filter.min.js'></script>
-        <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular-sanitize.js'></script>
-        <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular-animate.js'></script>
+        <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular-sanitize.js'></script>
+        <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular-animate.js'></script>
 
 
 </body>
